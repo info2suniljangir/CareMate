@@ -1,0 +1,18 @@
+
+
+.addtransition {
+    transition: background-color 1000ms ease-out, color 1000ms ease-out, transform 500ms ease-out;
+    height: 300px;
+    width: 300px;
+
+}
+
+.addtransition:hover {
+    background-color: blue;
+    color: white;
+    transform: rotate3d(100, 100, 500, 30deg);
+}
+
+/* transition: property duration function delay */
+/* transition-property, transition-duration transition-timing-function transition-delay */
+/* transtion property changed smoothly like animation */
