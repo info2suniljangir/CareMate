@@ -73,7 +73,7 @@ export const {handlers ,auth, signIn, signOut } = NextAuth({
   ],
 
   // docs link for callbacks
-  // https://next-auth.js.org/configuration/callbacks
+  //  
   // Note: this callback run for all providers, even for credential prividers.
   // callbacks controlls the flow of signin.
   callbacks: {
@@ -149,7 +149,7 @@ export const {handlers ,auth, signIn, signOut } = NextAuth({
     // defining redirect logic after login or logout.
     // The redirect callback is called anytime the user is redirected to a callback URL (e.g. on signin or signout).
     // before it i need to define the redirectUrl inside the signIn methods but using redirect, I do not need it.
-    // now I no more need to to define {redirectUrl: "/something"} in the signIn or signOut methods.
+    // now I no more need to to define { callbackUrl: 'http://localhost:3000' } in the signIn or signOut methods.
     // the redirect callback is called after signIn or signOut methods.
     // it will run more than once in authentication flow.
     async redirect({ url, baseUrl }) {
@@ -210,6 +210,10 @@ export const {handlers ,auth, signIn, signOut } = NextAuth({
       }
       return token;
     },
+    // Note:
+    // When using JSON Web Tokens the jwt() callback is invoked before the session() callback,
+    // so anything you add to the JSON Web Token will be immediately available in the session callback, 
+    // like for example an access_token or id from a provider.
     async session({ session, token}) {
 
       // here the fixes needed.

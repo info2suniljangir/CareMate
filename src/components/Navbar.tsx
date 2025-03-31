@@ -4,7 +4,7 @@ import { assets } from "@/assets/assets";
 import React, { useRef, useState, useEffect } from "react";
 import { ubuntu } from "@/utils/font";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import {  usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -16,8 +16,9 @@ import {
   faXmark,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { logOut } from "@/library/action";
-import { getSession, useSession } from "next-auth/react";
+// import { logOut } from "@/library/action";
+import {  useSession } from "next-auth/react";
+import { signOut } from 'next-auth/react';
 
 type NavLink = {
   id: number;
@@ -40,13 +41,20 @@ const Navbar: React.FC = () => {
   const pathName = usePathname();
 
   const session = useSession();
-  console.log("this is my session status : " + session.status);
+  const { data, status } = session; 
+  console.log("this is my session status : " + status);
+  console.log("this is user name : " + data?.user.name);
   
 
 
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
-    await logOut();
+   
+    // await logOut(); => this will delete the session from browser, and redirect according to the auth logic, mean no full page reload
+    await signOut();
+    // this will call /api/auth/signOut, and then redirect to the specifiec callback
+    // result in full page reload.
+    // if you want to avoid full page reload then {redirect: false} and then useRouter.push("/") for smooth client side navigation.
   };
 
   //useRef hook
@@ -165,6 +173,34 @@ const Navbar: React.FC = () => {
                   : " opacity-0 scale-95 transition ease-in duration-75"
               } transition transform absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
             >
+            {status === "authenticated" ? (
+              <>
+                <div 
+              className="hover:bg-gray-100  font-medium"
+              >
+              <Link
+                className="w-full block px-2 py-3"
+                href={"/"}
+                aria-disabled= {true}
+                >
+                {data?.user.name}
+              </Link>
+                </div>
+
+
+              <form onSubmit={handleLogout}>
+                <button
+                  type="submit"
+                  className="w-full text-start hover:bg-gray-100 px-2 py-3"
+                  // onClick={() => setShowProfile(false)}
+                >
+                  Sign Out
+                </button>
+              </form>
+
+              </>
+            ) : (
+              <>
               <div 
               className="hover:bg-gray-100  font-medium"
               onClick={() => setShowProfile(false)}>
@@ -184,15 +220,9 @@ const Navbar: React.FC = () => {
                 Log in
               </Link>
                 </div>
-              <form onSubmit={handleLogout}>
-                <button
-                  type="submit"
-                  className="w-full text-start hover:bg-gray-100 px-2 py-3"
-                  // onClick={() => setShowProfile(false)}
-                >
-                  Sign Out
-                </button>
-              </form>
+
+              </>
+            )}
             </div>
           )}
         </div>
