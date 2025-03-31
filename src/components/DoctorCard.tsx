@@ -93,12 +93,12 @@ const DoctorCard2 = ({ doctor }: { doctor: DoctorInfo }) => {
       {/* Action element */}
       <div className="flex mt-4">
         <div className="w-1/2 text-center text-gray-700 hover:bg-custom-pink border border-custom-pink rounded-bl p-2 transition-all duration-500">
-          <Link href={`http://localhost:3000/doctors/${doctor._id}`}>
+          <Link href={`/doctors/${doctor._id}`}>
             View Profile
           </Link>
         </div>
         <div className="w-1/2 text-center bg-custom-pink hover:bg-white text-gray-700  border border-custom-pink rounded-br p-2 transition-all duration-500">
-          <Link href={`http://localhost:3000/doctors/${doctor._id}`}>
+          <Link href={`/doctors/${doctor._id}`}>
             Book Appointment
           </Link>
         </div>
