@@ -1,10 +1,20 @@
 "use client";
-import { assets } from "@/assets/assets";
+// import { assets } from "@/assets/assets";
+// import { getCldImageUrl } from "next-cloudinary";
+import { heroImageUrl } from "@/library/imageurl";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const HeroSection: React.FC = () => {
+
+
+
+  // const heroImageUrl = getCldImageUrl({
+  //   width: 1200,
+  //   height: 1200,
+  //   src: "seed-images/hero",
+  // });
   return (
     // Gradient background using tailwindcss=>Gradual change of color from top to bottom from blue to white
     <div
@@ -46,7 +56,7 @@ const HeroSection: React.FC = () => {
         <div className="md:w-1/2">
           {/* the rendered size of the image is controlled by this parent element. */}
           <Image
-            src={assets.heroImage}
+            src={heroImageUrl}
             alt="hero.png"
             // if the fill property is used then height and width mean intrinsic size of the image should not be specified.
             // so either use fill or use height and width.

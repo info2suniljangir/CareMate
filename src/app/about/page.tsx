@@ -1,11 +1,13 @@
 import Image from "next/image";
 import React from "react";
-import { assets } from "@/assets/assets";
+// import { assets } from "@/assets/assets";
+import { aboutImageUrl } from "@/library/imageurl";
 
 //  If you have a layout.tsx, Next.js will wrap the Page component inside it automatically.
 // Maintain consistency
 // Next.js conventions.
 const Page: React.FC = () => {
+
   return (
     <div className="wrapper  ">
       <div className="flex flex-col md:flex-row gap-4 mt-16 sm:mt-20 md:mt-16  md:p-6 sm:w-[80%] mx-auto">
@@ -60,7 +62,7 @@ const Page: React.FC = () => {
           {/* this is the best way to use image. */}
           <div className="relative w-full h-[300px]">
             <Image
-              src={assets.aboutImage2}
+              src={aboutImageUrl}
               alt="aboutImage"
             //   either fill or hight and width property given
               fill

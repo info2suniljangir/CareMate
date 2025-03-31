@@ -1,12 +1,16 @@
 // the nextjs route segement
-
+"use client";
 import Image from "next/image";
-import { doctors } from "@/assets/assets";
+// import { doctors } from "@/assets/assets";
 import { DoctorInfo } from "@/types/types";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIndianRupeeSign } from "@fortawesome/free-solid-svg-icons";
-import { use } from "react";
+import { use, useContext } from "react";
+import { AppContext } from "@/context/AppContext";
+// import { getCldImageUrl } from "next-cloudinary";
+import { doctorsImageUrl } from "@/library/imageurl";
+import { DoctorWithIdSkelton } from "@/components/fallbacks/DoctorWithIdSkelton";
 
 const dates = [
   {
@@ -100,16 +104,30 @@ const slots = [
     time: "08:00 pm",
   },
 ];
-const Page =  ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params);
-  // alternate way
+const Page = ({ params }: { params: Promise<{ id: string }> }) => {
+  // alternate way but this is asynchronous so only used in server components.
   // const { id } = await params;
+
+  const { id } = use(params);
+  const doctors = useContext(AppContext);
+  if (!doctors) {
+    return <DoctorWithIdSkelton />;
+  }
+
+  // filtering doctor with id.
   const filteredArray: DoctorInfo[] = doctors.filter(
-    (doctor) => doctor._id === id
+    (doctor) => doctor._id === Number(id)
   );
   const doctorWithId: DoctorInfo = filteredArray[0];
+  if (!doctorWithId) {
+    return <div className="mt-32 ml-32 text-center">Doctor not found</div>;
+  }
+
+  // Doctor Image url
+  const url = doctorsImageUrl(doctorWithId.image);
 
   return (
+    
     <div className="wrapper ">
       <div className="flex flex-col sm:flex-row  gap-4 mt-20 ">
         {/* left container */}
@@ -118,7 +136,7 @@ const Page =  ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="relative h-[350px] sm:h-64 sm:w-64 w-[350px]">
             {doctorWithId && (
               <Image
-                src={doctorWithId.image}
+                src={url}
                 alt="doctorimage.png"
                 // height={256}
                 // width={256}

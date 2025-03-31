@@ -8,14 +8,36 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { AppContext } from "@/context/AppContext";
+import DoctorsSkelton from "@/components/fallbacks/DoctorSkelton";
 
 // ${style.addtransition}
-
 
 const Page = () => {
   const [chooseSpeciality, setChooseSpeciality] = useState<string>("all");
   const [search, setSearch] = useState<string>("");
   const doctors = useContext(AppContext);
+
+  // when component is not suspended.
+  // the component is not suspended, becuse it get data from context, most of the time context has default value and not asynchronouts.
+  // fetching data in useEffect not suspend the component, because component first render and then fetch data
+  // the component does not has asynchronous operation.
+  // the component is not suspended, if the component does not have any child that is suspended.
+  // the component does not imported dyanamically using React.lazy
+
+
+  // when component is suspended.
+  // if the component encounteres an asynchrounous operation, that is not finished during rendering,
+  // this cause the react to search nearest suspense boundary and display the fallback ui, untill the asynchrounous operation is finished.
+// the component is suspended when the component has the child that is suspended.
+// the component is suspended when the component is imported dynamically using React.lazy
+// the component is suspended when data is fetched inside use instead of useEffect.
+// if the context is suspended when data is fetched inside use, in that case component is suspended.
+
+// Streaming is a data transfer technique that allows you to break down a route into smaller "chunks" and progressively stream them from the server to the client as they become ready.
+  if (!doctors) {
+    return <DoctorsSkelton />;
+  }
+
   // the doctors can be null, so in that case optional chaining operator can be used to access data
 
   //  use effect is not used here because filtering doctor is pure computation
@@ -62,11 +84,12 @@ const Page = () => {
               <ul className="absolute top-0 shadow-md rounded w-full bg-white max-h-72 overflow-y-auto">
                 {filterOnSearch?.map((doctor) => {
                   return (
-                    <li
-                      key={doctor._id}
-                    >
-                      <Link href={`/doctors/${doctor._id}`} className="px-4 py-3 border-t border-t-gray-100 block">
-                      {doctor.name}
+                    <li key={doctor._id}>
+                      <Link
+                        href={`/doctors/${doctor._id}`}
+                        className="px-4 py-3 border-t border-t-gray-100 block"
+                      >
+                        {doctor.name}
                       </Link>
                     </li>
                   );

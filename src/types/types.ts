@@ -9,22 +9,34 @@ export interface SpecialityDataType {
 
 export interface DoctorInfo {
     
-        _id: string;
+        _id: number;
         name: string;
         // this is the type of image
-        image: StaticImageData;
+        image: string;
         speciality: string;
         degree: string;
         experience: string;
         about: string;
         fees: number;
-        address: {
-            line1: string;
-            line2: string;
-        }
+        // indented objects are used as json data.
+        address: string;
     
 };
+
+
+export interface User {
+    _id: number;  // Auto-incrementing primary key
+    name: string;
+    email: string;
+    image?: string | null; // Optional, can be null
+    phone: string; // Defaults to '000000000'
+    address: string; // JSONB field as an object
+    gender: string; // Defaults to 'Not Selected'
+    dob: string; // Defaults to 'Not Selected'
+    password: string; // Hashed password
+  };
 
 export interface ImageAssetsTypes {
     [key: string]: StaticImageData
 }
+

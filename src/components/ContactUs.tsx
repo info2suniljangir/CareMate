@@ -1,10 +1,11 @@
 import Image from "next/image";
 import React from "react";
-import { assets } from "@/assets/assets";
+import { contactImageUrl } from "@/library/imageurl";
 
 
 
 const ContactUs:React.FC = () => {
+
   return (
     <form >
       <div className="wrapper " id="contactUs">
@@ -89,7 +90,7 @@ const ContactUs:React.FC = () => {
           {/* Image */}
           <div className="md:w-1/2  hidden md:block relative">
             <Image
-              src={assets.contactImage}
+              src={contactImageUrl}
               alt="contact.png"
               // height={400}
               // width={550}

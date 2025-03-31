@@ -4,10 +4,11 @@ import { assets } from "@/assets/assets";
 import React, { useRef, useState, useEffect } from "react";
 import { ubuntu } from "@/utils/font";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Currently in the client component importing global icons doesn't work, 
+
+// Currently in the client component importing global icons doesn't work,
 // so icons should be imported individually;
 
 import {
@@ -15,12 +16,14 @@ import {
   faXmark,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { logOut } from "@/library/action";
+import { getSession } from "next-auth/react";
 
 type NavLink = {
   id: number;
   title: string;
   href: string;
-}
+};
 
 // Navigation items
 const navLinks: NavLink[] = [
@@ -31,11 +34,51 @@ const navLinks: NavLink[] = [
   { id: 5, title: "Admin", href: "/admin" },
 ];
 
-const Navbar:React.FC = () => {
+const Navbar: React.FC = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const pathName = usePathname();
 
+  const session = getSession()
+  console.log("this is my session object" + session);
+  
+
+
+  const handleLogout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await logOut();
+    redirect("/");
+  };
+
+  //useRef hook
+  // definition => let you refrence a value that does not need to render.
+  // Two things in defination 1. refrence a value 2. not need to render.
+
+  // 1: refrence a values simply mean store a value.
+  // 2: not needed to render.
+
+  // it's likely a variable that does not cause for re-render when updated.
+
+  // Argument : initial value => the initial value of the ref that is ignored after first render.
+
+  // returns => it returns a ref object that has a single porperty current.
+
+  // this current property can be changed.
+
+  // Note: never manipulate the ref in the rendering. otherwise the component break pure function standard.
+  // but ref can be manupulated inside event handlers and useEffect hook.
+
+  // this is specially used to persist information between renders.
+
+  // so ref is not suitable values that is shown on the screen.
+  // mean the value that are not shown on the screen, only for them useRef is used.
+
+  // Note: custom component can not be assigned to the ref, while only native components are assigned to the ref, which has ref attribute.
+
+  // uses
+  // 1: storing dom elements
+  // 2: Storing interval id's
+  // 3: storing the value that need to be persist between renders.
 
   // CLICK-OUTSIDE-LISTENER
   const menuRef = useRef<HTMLDivElement | null>(null); //=> the profile menu is refrenced
@@ -62,10 +105,9 @@ const Navbar:React.FC = () => {
   }, [showProfile]);
 
   return (
-
-    // fixing the navbar at the top 
+    // fixing the navbar at the top
     // first this first=> root layout given the relative position
-    // by giving the fixed position it will become out of the flow 
+    // by giving the fixed position it will become out of the flow
     // with position it should be given where should be the navbar fixed like top:0;
     // that's why width property is given.
     // bg-shold be white, otherwise it becomes transparent
@@ -93,7 +135,8 @@ const Navbar:React.FC = () => {
                 <li
                   key={navlink.id}
                   className={`hover:text-custom-red ${
-                    pathName === navlink.href && "border-b border-custom-red text-custom-red"
+                    pathName === navlink.href &&
+                    "border-b border-custom-red text-custom-red"
                   }`}
                 >
                   <Link href={navlink.href}>{navlink.title}</Link>
@@ -115,25 +158,44 @@ const Navbar:React.FC = () => {
               <FontAwesomeIcon icon={faCircleUser} className="h-7 w-7" />
             </div>
           </button>
-            {showProfile && 
-          <div
-            className={`${
-              showProfile
-                ? " opacity-100 scale-100 transition ease-out duration-100"
-                : " opacity-0 scale-95 transition ease-in duration-75"
-            } transition transform absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
-          >
-            <Link
-              className="hover:bg-gray-100 px-2 py-3 font-medium"
-              href={"/signup"}
+          {showProfile && (
+            <div
+              className={`${
+                showProfile
+                  ? " opacity-100 scale-100 transition ease-out duration-100"
+                  : " opacity-0 scale-95 transition ease-in duration-75"
+              } transition transform absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
             >
-              Sign up
-            </Link>
-            <Link className="hover:bg-gray-100 px-2 py-3" href={"/login"}>
-              Log in
-            </Link>
-          </div>
-          }
+              <div 
+              className="hover:bg-gray-100  font-medium"
+              onClick={() => setShowProfile(false)}>
+              <Link
+                className="w-full block px-2 py-3"
+                href={"/signup"}
+                >
+                Sign up
+              </Link>
+                </div>
+
+                <div 
+                className="hover:bg-gray-100  font-medium"
+                onClick={() => setShowProfile(false)}
+                >
+              <Link className="w-full block px-2 py-3" href={"/login"}>
+                Log in
+              </Link>
+                </div>
+              <form onSubmit={handleLogout}>
+                <button
+                  type="submit"
+                  className="w-full text-start hover:bg-gray-100 px-2 py-3"
+                  // onClick={() => setShowProfile(false)}
+                >
+                  Sign Out
+                </button>
+              </form>
+            </div>
+          )}
         </div>
 
         {/*  Mobile menue */}
@@ -192,10 +254,26 @@ const Navbar:React.FC = () => {
             <li onClick={() => setShowMenu(false)}>
               <Link href={"/signup"}>Create Account</Link>
             </li>
+            <form onSubmit={handleLogout}>
+                <button
+                  type="submit"
+                  className="w-full text-start hover:bg-gray-100 px-2 py-3"
+                  onClick={() => setShowProfile(false)}
+                >
+                  Sign Out
+                </button>
+              </form>
 
             {navLinks.map((link) => {
               return (
-                <li key={link.id} onClick={() => setShowMenu(false)} className={`${pathName === link.href && "border-b border-custom-red text-custom-red"}`}>
+                <li
+                  key={link.id}
+                  onClick={() => setShowMenu(false)}
+                  className={`${
+                    pathName === link.href &&
+                    "border-b border-custom-red text-custom-red"
+                  }`}
+                >
                   <Link href={link.href}>{link.title}</Link>
                 </li>
               );
