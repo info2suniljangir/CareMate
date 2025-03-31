@@ -17,7 +17,7 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { logOut } from "@/library/action";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 
 type NavLink = {
   id: number;
@@ -39,15 +39,14 @@ const Navbar: React.FC = () => {
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const pathName = usePathname();
 
-  const session = getSession()
-  console.log("this is my session object" + session);
+  const session = useSession();
+  console.log("this is my session status : " + session.status);
   
 
 
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
     await logOut();
-    redirect("/");
   };
 
   //useRef hook

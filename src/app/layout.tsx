@@ -46,6 +46,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Footer from "@/components/Footer";
 import AppContextProvider from "@/context/AppContext";
+import { SessionProviderWrapper } from "@/context/SessionProviderWrapper";
 config.autoAddCss = false;
 //
 
@@ -76,7 +77,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.className}  antialiased relative`}>
+        <SessionProviderWrapper>
         <Navbar />
+        </SessionProviderWrapper>
         <AppContextProvider>
         {children}
         </AppContextProvider>
