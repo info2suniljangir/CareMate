@@ -47,6 +47,8 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import Footer from "@/components/Footer";
 import AppContextProvider from "@/context/AppContext";
 import { SessionProviderWrapper } from "@/context/SessionProviderWrapper";
+import { getAuthContext } from "@/library/action";
+import { AuthContextProvider } from "@/context/AuthContext";
 config.autoAddCss = false;
 //
 
@@ -68,18 +70,22 @@ export const metadata: Metadata = {
 
 // all the routes will be difined inside the app directory. so this way it becomes app router
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   // Here type React.ReactNode is used because child can be any defined type of react node, may be a string, null or undefined also
   children: React.ReactNode;
 }>) {
+  const baseContaxt = await getAuthContext();
+
   return (
     <html lang="en">
       <body className={`${outfit.className}  antialiased relative`}>
+        <AuthContextProvider value={baseContaxt}>
         <SessionProviderWrapper>
         <Navbar />
         </SessionProviderWrapper>
+        </AuthContextProvider>
         <AppContextProvider>
         {children}
         </AppContextProvider>

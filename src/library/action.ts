@@ -1,12 +1,19 @@
 "use server";
 
-import { signIn, signOut } from "../../auth";
+import { auth, signIn, signOut } from "../../auth";
 import { AuthError } from "next-auth";
 import { neon } from "@neondatabase/serverless";
 import bcrypt from "bcrypt";
 
 const sql = neon(`${process.env.DATABASE_URL}`);
 // ...
+
+
+
+export const getAuthContext = async () => {
+  const session = await auth();
+  return session;
+}
 
 export async function authenticate(
   prevState: string | undefined,

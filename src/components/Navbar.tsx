@@ -17,8 +17,11 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 // import { logOut } from "@/library/action";
-import {  useSession } from "next-auth/react";
-import { signOut } from 'next-auth/react';
+import {  signOut, 
+  // useSession
+ } from "next-auth/react";
+import { useAuthContext } from "@/hooks/useAuthContext";
+
 
 type NavLink = {
   id: number;
@@ -40,10 +43,16 @@ const Navbar: React.FC = () => {
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const pathName = usePathname();
 
-  const session = useSession();
-  const { data, status } = session; 
-  console.log("this is my session status : " + status);
-  console.log("this is user name : " + data?.user.name);
+  const sessionData = useAuthContext();
+
+  // console.log("this is session context: " + sessionContext?.user);
+
+
+
+  // const session = useSession();
+  // const { data, status } = session; 
+  // console.log("this is my session status : " + status);
+  // console.log("this is user name : " + data?.user.name);
   
 
 
@@ -173,7 +182,7 @@ const Navbar: React.FC = () => {
                   : " opacity-0 scale-95 transition ease-in duration-75"
               } transition transform absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
             >
-            {status === "authenticated" ? (
+            {sessionData?.user ? (
               <>
                 <div 
               className="hover:bg-gray-100  font-medium"
@@ -183,7 +192,7 @@ const Navbar: React.FC = () => {
                 href={"/"}
                 aria-disabled= {true}
                 >
-                {data?.user.name}
+                {sessionData?.user.name}
               </Link>
                 </div>
 
@@ -333,7 +342,6 @@ export default Navbar;
 //   icon={faBars}
 //   className="h-6 w-6 md:hidden fixed top-4 right-4"
 // />
-
 // {/* Designing Mobile menue */}
 // <div
 //   className={`md:hidden ${
