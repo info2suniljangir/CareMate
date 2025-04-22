@@ -1,8 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Author
+Sunil Kumar Jangir
+Frontend developer in progress | Passionate about building usefull application.
+Sikar, Rajasthan, India
+Github [https://github.com/info2suniljangir](https://github.com/info2suniljangir)
+Linkedin [https://www.linkedin.com/in/info2suniljangir]
+Email: info2suniljangir@gmail.com
 
-## Getting Started
 
-First, run the development server:
+## CareMate
+
+This is an appointment booking application where users can securely login and book and cancel appointments with their required speciality doctors.
+
+
+## Getting started to run local dev server 
+
+Clone the project
+
+```bash
+https://github.com/info2suniljangir/CareMate.git
+
+```
+
+Install dependencies
+```bash
+npm install
+```
+
+Run the development server;
 
 ```bash
 npm run dev
@@ -14,23 +38,27 @@ pnpm dev
 bun dev
 ```
 
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Vercel Link
+[https://care-mate.vercel.app/](https://care-mate.vercel.app/)
 
-## Learn More
+## Tech stack
+Frontend: Next.js, React.js, Tailwindcss.
+Backend: Next.js api routes and server actions.
+Database: Neon PostgreSQL, Cloudinary for storing images.
+Deployment: Vercel
 
-To learn more about Next.js, take a look at the following resources:
+## Short guideline for using application
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Step1: Signup as a new user or login with Google.
+Step2: Oper All Doctors tab from navbar.
+Step3: Click book appointment on the doctors card.
+Step4: Select a date and slot and then hit appointment button.
+Step5: to see all appointment open dropdown menue and then hit my appointment option.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+Developed and maintained by Sunil Kumar Jangir, a self-driven developer passionate about creating meaningful web applications.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
