@@ -1,6 +1,6 @@
 ## Author
 Sunil Kumar Jangir  
-Frontend developer in progress | Passionate about building usefull application.  
+Frontend developer in progress | Passionate about building useful application.  
 Sikar, Rajasthan, India  
 Github [https://github.com/info2suniljangir](https://github.com/info2suniljangir)  
 Linkedin [https://www.linkedin.com/in/info2suniljangir]  
@@ -54,10 +54,15 @@ Deployment: Vercel
 ## Short guideline for using application
 
 Step1: Signup as a new user or login with Google.  
-Step2: Oper All Doctors tab from navbar.  
+Step2: Open All Doctors tab from navbar.  
 Step3: Click book appointment on the doctors card.  
 Step4: Select a date and slot and then hit appointment button.  
-Step5: to see all appointment open dropdown menue and then hit my appointment option.  
+Step5: to see all appointment open dropdown menu and then hit my appointment option.  
+
+## Screenshots
+
+### 🏠 Homepage
+![Homepage](public/alldoctorspage.png)
 
 
 Developed and maintained by Sunil Kumar Jangir, a self-driven developer passionate about creating meaningful web applications.
