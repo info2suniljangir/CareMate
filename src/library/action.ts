@@ -6,10 +6,8 @@ import { neon } from "@neondatabase/serverless";
 import bcrypt from "bcrypt";
 
 const sql = neon(`${process.env.DATABASE_URL}`);
-// ...
 
-
-
+// giving default value of auth.
 export const getAuthContext = async () => {
   const session = await auth();
   return session;
@@ -40,10 +38,10 @@ export const signInWithGoogle = async () => {
     await signIn("google");
     
   } catch (error) {
-    // note the next redirect error must be fixed.
     if (error instanceof AuthError) {
       return "Something went wront."
     }
+    // FIXING NEXT REDIRECT ERROR
     throw error;
   }
 }
@@ -53,7 +51,6 @@ export async function registerUser(
   prevState: string | undefined,
   formData: FormData
 ) {
-  // to align it with useActionState state, the returned state must be string, not an object.
   try {
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -92,22 +89,8 @@ export async function registerUser(
           return "Something went wrong.";
       }
     }
+    // NEXT AUTH REDIRECT ERROR FIXED
     throw error;
-
-    // Question 2: throwing error solved but still in the url shows signin.
-    // this is because callback url must be supplied to the signIn method.
-    // in this scenario callback url supplied from the form data.
-
-    // Question 1: why this throwing error solved redirect error?
-    // throw statement
-    // used to throw user defined exception.
-    // throw statement, terminates the program and give the controll to the next catch block.
-    // if there is no catch block then programe terminates.
-    // Means throw statement is used to termination programe immediately.
-    // used to handle unexpected exceptions.
-    // The throw statement only stops execution and passes the error to the nearest catch block.
-    //  It does not directly show the error to the user.
-    // If you want to display an error to the user, you must handle it explicitly.
   }
 }
 

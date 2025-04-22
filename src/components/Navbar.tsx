@@ -4,24 +4,20 @@ import { assets } from "@/assets/assets";
 import React, { useRef, useState, useEffect } from "react";
 import { ubuntu } from "@/utils/font";
 import Link from "next/link";
-import {  usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-// Currently in the client component importing global icons doesn't work,
-// so icons should be imported individually;
 
 import {
   faBars,
   faXmark,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
-// import { logOut } from "@/library/action";
-import {  signOut, 
+import {
+  signOut,
   // useSession
- } from "next-auth/react";
+} from "next-auth/react";
 import { useAuthContext } from "@/hooks/useAuthContext";
-
 
 type NavLink = {
   id: number;
@@ -35,7 +31,7 @@ const navLinks: NavLink[] = [
   { id: 2, title: "All Doctors", href: "/doctors" },
   { id: 3, title: "About", href: "/about" },
   { id: 4, title: "Contact", href: "/contact" },
-  { id: 5, title: "Admin", href: "/admin" },
+  // { id: 5, title: "Admin", href: "/admin" },
 ];
 
 const Navbar: React.FC = () => {
@@ -45,63 +41,17 @@ const Navbar: React.FC = () => {
 
   const sessionData = useAuthContext();
 
-  // console.log("this is session context: " + sessionContext?.user);
-
-
-
-  // const session = useSession();
-  // const { data, status } = session; 
-  // console.log("this is my session status : " + status);
-  // console.log("this is user name : " + data?.user.name);
-  
-
-
+  // LOGGOUT
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
-   
-    // await logOut(); => this will delete the session from browser, and redirect according to the auth logic, mean no full page reload
+
     await signOut();
-    // this will call /api/auth/signOut, and then redirect to the specifiec callback
-    // result in full page reload.
-    // if you want to avoid full page reload then {redirect: false} and then useRouter.push("/") for smooth client side navigation.
   };
 
-  //useRef hook
-  // definition => let you refrence a value that does not need to render.
-  // Two things in defination 1. refrence a value 2. not need to render.
-
-  // 1: refrence a values simply mean store a value.
-  // 2: not needed to render.
-
-  // it's likely a variable that does not cause for re-render when updated.
-
-  // Argument : initial value => the initial value of the ref that is ignored after first render.
-
-  // returns => it returns a ref object that has a single porperty current.
-
-  // this current property can be changed.
-
-  // Note: never manipulate the ref in the rendering. otherwise the component break pure function standard.
-  // but ref can be manupulated inside event handlers and useEffect hook.
-
-  // this is specially used to persist information between renders.
-
-  // so ref is not suitable values that is shown on the screen.
-  // mean the value that are not shown on the screen, only for them useRef is used.
-
-  // Note: custom component can not be assigned to the ref, while only native components are assigned to the ref, which has ref attribute.
-
-  // uses
-  // 1: storing dom elements
-  // 2: Storing interval id's
-  // 3: storing the value that need to be persist between renders.
-
   // CLICK-OUTSIDE-LISTENER
-  const menuRef = useRef<HTMLDivElement | null>(null); //=> the profile menu is refrenced
+  const menuRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // when the profile menu is opened, then confirm the profile menu is not detecting this click, means it must be outside of the profile menu.
-      // mean our target ref object not containing this click, then close the menu
       if (
         menuRef.current &&
         !(menuRef.current as Node).contains(event.target as Node)
@@ -109,27 +59,17 @@ const Navbar: React.FC = () => {
         setShowProfile(false);
       }
     };
-    // add the outside event listener when the profile menu is opened
+    // ADDING OUTSIDE EVENT LISTENER
     if (showProfile) {
       document.addEventListener("click", handleClickOutside);
     }
-
-    // when the profile menu is closed then remove unnecessary listeners
+    // REMOVING THE OUTSIDE EVENT LISTENER
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [showProfile]);
 
   return (
-    // fixing the navbar at the top
-    // first this first=> root layout given the relative position
-    // by giving the fixed position it will become out of the flow
-    // with position it should be given where should be the navbar fixed like top:0;
-    // that's why width property is given.
-    // bg-shold be white, otherwise it becomes transparent
-    // z-index should given max otherwise some content show above it, for example next image.
-    // then last the first element of any content must be given a top margin otherwise it will be hidden behind the navbar
-
     <div className="fixed top-0 w-full bg-white z-50">
       <div className="wrapper flex justify-between items-center border-b border-b-gray-300">
         {/* logo */}
@@ -182,56 +122,59 @@ const Navbar: React.FC = () => {
                   : " opacity-0 scale-95 transition ease-in duration-75"
               } transition transform absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
             >
-            {sessionData?.user ? (
-              <>
-                <div 
-              className="hover:bg-gray-100  font-medium"
-              >
-              <Link
-                className="w-full block px-2 py-3"
-                href={"/"}
-                aria-disabled= {true}
-                >
-                {sessionData?.user.name}
-              </Link>
-                </div>
+              {sessionData?.user ? (
+                <>
+                  <div className="hover:bg-gray-100  font-medium">
+                    <Link
+                      className="w-full block px-2 py-3"
+                      href={"/"}
+                      aria-disabled={true}
+                    >
+                      {sessionData?.user.name}
+                    </Link>
+                  </div>
 
+                  <div className="hover:bg-gray-100  font-medium">
+                    <Link
+                      className="w-full block px-2 py-3"
+                      href={"/my-appointments"}
+                      aria-disabled={true}
+                    >
+                      My Appointments
+                    </Link>
+                  </div>
 
-              <form onSubmit={handleLogout}>
-                <button
-                  type="submit"
-                  className="w-full text-start hover:bg-gray-100 px-2 py-3"
-                  // onClick={() => setShowProfile(false)}
-                >
-                  Sign Out
-                </button>
-              </form>
+                  <form onSubmit={handleLogout}>
+                    <button
+                      type="submit"
+                      className="w-full text-start hover:bg-gray-100 px-2 py-3"
+                      // onClick={() => setShowProfile(false)}
+                    >
+                      Sign Out
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <div
+                    className="hover:bg-gray-100  font-medium"
+                    onClick={() => setShowProfile(false)}
+                  >
+                    <Link className="w-full block px-2 py-3" href={"/signup"}>
+                      Sign up
+                    </Link>
+                  </div>
 
-              </>
-            ) : (
-              <>
-              <div 
-              className="hover:bg-gray-100  font-medium"
-              onClick={() => setShowProfile(false)}>
-              <Link
-                className="w-full block px-2 py-3"
-                href={"/signup"}
-                >
-                Sign up
-              </Link>
-                </div>
-
-                <div 
-                className="hover:bg-gray-100  font-medium"
-                onClick={() => setShowProfile(false)}
-                >
-              <Link className="w-full block px-2 py-3" href={"/login"}>
-                Log in
-              </Link>
-                </div>
-
-              </>
-            )}
+                  <div
+                    className="hover:bg-gray-100  font-medium"
+                    onClick={() => setShowProfile(false)}
+                  >
+                    <Link className="w-full block px-2 py-3" href={"/login"}>
+                      Log in
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -243,9 +186,6 @@ const Navbar: React.FC = () => {
           aria-controls="mobile-menu"
           aria-expanded={showMenu}
         >
-          {/* Somehow the second one is using in the smooth transition, it can not be deleted from hear
-          at all a frame is being developed that is making the transition
-          */}
           {showMenu ? (
             <FontAwesomeIcon icon={faXmark} className="h-6 w-6" />
           ) : (
@@ -259,7 +199,6 @@ const Navbar: React.FC = () => {
           className={`md:hidden ${
             showMenu ? "opacity-100 visible" : "opacity-0 invisible"
           } fixed inset-0 overflow-hidden z-2 bg-white transition-all duration-300 ease-in-out pt-[11px]`}
-          // transition property is the shorthand for the transition-property transition-duration transition-function transition-delay
         >
           {/* Navbar Mobile menu opened */}
           <div className="wrapper flex justify-between items-center">
@@ -271,7 +210,6 @@ const Navbar: React.FC = () => {
                 width={40}
                 className=""
               />
-              {/* Childrens sit on the top of the parent, this is the style  heirarchy of element . */}
               <div className={`${ubuntu.className} text-custom-red`}>
                 CareMate
               </div>
@@ -286,21 +224,31 @@ const Navbar: React.FC = () => {
           </div>
           {/* Navigation Links */}
           <ul className="flex flex-col items-center gap-4 font-medium text-lg mt-10">
-            <li onClick={() => setShowMenu(false)}>
-              <Link href={"/login"}>Login</Link>
-            </li>
-            <li onClick={() => setShowMenu(false)}>
-              <Link href={"/signup"}>Create Account</Link>
-            </li>
-            <form onSubmit={handleLogout}>
+            {sessionData?.user ? (
+              <form onSubmit={handleLogout}>
                 <button
                   type="submit"
                   className="w-full text-start hover:bg-gray-100 px-2 py-3"
-                  onClick={() => setShowProfile(false)}
+                  onClick={() => setShowMenu(false)}
                 >
                   Sign Out
                 </button>
               </form>
+            ) : (
+              <li onClick={() => setShowMenu(false)}>
+                <Link href={"/login"}>Login</Link>
+              </li>
+            )}
+
+            {sessionData?.user ? (
+              <li onClick={() => setShowMenu(false)}>
+                <Link href={"/my-appointments"}>My appointments</Link>
+              </li>
+            ) : (
+              <li onClick={() => setShowMenu(false)}>
+                <Link href={"/signup"}>Create Account</Link>
+              </li>
+            )}
 
             {navLinks.map((link) => {
               return (
@@ -325,74 +273,3 @@ const Navbar: React.FC = () => {
 
 export default Navbar;
 
-{
-  /* <div
-            className={`${
-              showProfile ? "block" : "hidden"
-            } absolute top-14 right-14 shadow-md py-3 flex flex-col profile-dropdown-shadow w-60 z-20 bg-white rounded text-sm`}
-          > */
-}
-
-// the above version of the navbar is well optimized
-// {/* Mobile menue button */}
-// {/* in the hidden class display= none, mean the whole block is removed */}
-// {/* visiblity: hidden; hide the element but space reserved, display:none; remove the element completly and does not reserve the space */}
-// <FontAwesomeIcon
-//   onClick={() => setShowMenu(true)}
-//   icon={faBars}
-//   className="h-6 w-6 md:hidden fixed top-4 right-4"
-// />
-// {/* Designing Mobile menue */}
-// <div
-//   className={`md:hidden ${
-//     showMenue ? "fixed w-full" : "h-0 w-0"
-//   } right-0 top-0 bottom-0 bg-white overflow-hidden  z-20 transition-all`}
-// >
-
-//   {/* another way to transition */}
-// {/* <div className={`md:hidden fixed top-0 right-0 bottom-0 overflow-hidden z-20 bg-white transition-transform duration-300  ${showMenue ? 'translate-x-0 w-full' : 'translate-x-full w-0'}`}> */}
-
-//   {/*position-fixed right-0 top-0 bottom-0 ensures the div covers the entire right side of the screen. */}
-//   {/* as showMenu true then from right side to take the whole screen and transition will be done by right to left */}
-
-//   {/*Note: Since the element is not in the DOM, transitions will not work (because the browser doesn’t animate hidden elements). */}
-//   {/* it means to perform transition the element must be in the dom */}
-
-//   {/*fixed w-full right-0 top-0 bottom-0 bg-white => these classes makes the screen full size */}
-//   {/* top-0 bottom-0 → Stretches the element from the top to the bottom. */}
-//   {/* inset is the shorthand for top right bottom left */}
-//   {/* inset-0 is used to make the element wider to the screen */}
-//   <div className="flex justify-between items-center wrapper">
-//     {/* logo */}
-//     <div className="flex gap-2 items-center font-bold hover:cursor-pointer">
-//       <Image
-//         src={assets.logo}
-//         alt="Logo.png"
-//         height={40}
-//         width={40}
-//         className=""
-//       />
-//       <div className={`${ubuntu.className} text-custom-red`}>
-//         CareMate
-//       </div>
-//     </div>
-//     {/* Menu icon */}
-//     <FontAwesomeIcon
-//       onClick={() => setShowMenu(false)}
-//       icon={faXmark}
-//       className="h-6 w-6"
-//     />
-//   </div>
-//   {/* Menu navigation links */}
-//   <div className="">
-//       <ul className="flex flex-col mt-5 items-center gap-2 font-medium text-lg">
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/login'}> Login</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/signup'}> Signup</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/'}> Home</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/doctors'}>All Doctors</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/about'}>About</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/contact'}>Contact</Link>
-//         <Link className="px-4 py-2 rounded" onClick={() => setShowMenu(false)} href={'/admin'}>Admin</Link>
-//       </ul>
-//   </div>
-// </div>

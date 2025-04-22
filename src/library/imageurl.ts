@@ -1,4 +1,4 @@
-import { getCldImageUrl } from 'next-cloudinary';
+import { getCldImageUrl } from 'next-cloudinary'; 
 
 // the central controll of all the images.
 
@@ -13,8 +13,6 @@ export const heroImageUrl = getCldImageUrl({
     return getCldImageUrl({
         width: 500,
         height: 500,
-        // src: {doctorsImage}, this way is used in jsx, not in javascript functions.
-        // if this way is used then {doctorsImage} will return an object instead of a string. 
         src: doctorsImage,
     })
   }

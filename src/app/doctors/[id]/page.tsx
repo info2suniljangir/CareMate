@@ -1,121 +1,185 @@
 // the nextjs route segement
 "use client";
 import Image from "next/image";
-// import { doctors } from "@/assets/assets";
 import { DoctorInfo } from "@/types/types";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIndianRupeeSign } from "@fortawesome/free-solid-svg-icons";
-import { use, useContext } from "react";
-import { AppContext } from "@/context/AppContext";
-// import { getCldImageUrl } from "next-cloudinary";
+import { use, useCallback, useEffect, useState } from "react";
 import { doctorsImageUrl } from "@/library/imageurl";
 import { DoctorWithIdSkelton } from "@/components/fallbacks/DoctorWithIdSkelton";
+import { toast } from "react-toastify";
+import { useAppContext, useAuthContext } from "@/hooks/useAuthContext";
+import {  useRouter } from "next/navigation";
+export interface TimeSlots {
+  dateTime: Date, 
+  time: string
+};
 
-const dates = [
-  {
-    id: "08-03-2025",
-    day: "Sat",
-    date: 8,
-  },
-  {
-    id: "09-03-2025",
-    day: "Sun",
-    date: 9,
-  },
-  {
-    id: "10-03-2025",
-    day: "Mon",
-    date: 10,
-  },
-  {
-    id: "11-03-2025",
-    day: "Tue",
-    date: 11,
-  },
-  {
-    id: "12-03-2025",
-    day: "Wed",
-    date: 12,
-  },
-  {
-    id: "13-03-2025",
-    day: "Thr",
-    date: 13,
-  },
-  {
-    id: "14-03-2025",
-    day: "Fri",
-    date: 14,
-  },
-];
+export interface AllSlots {
+  dateKey: string,
+  slots: TimeSlots[]
+};
 
-const slots = [
-  {
-    id: 1,
-    time: "02:00 pm",
-  },
-  {
-    id: 2,
-    time: "02:30 pm",
-  },
-  {
-    id: 3,
-    time: "03:00 pm",
-  },
-  {
-    id: 4,
-    time: "03:30 pm",
-  },
-  {
-    id: 5,
-    time: "04:00 pm",
-  },
-  {
-    id: 6,
-    time: "04:30 pm",
-  },
-  {
-    id: 7,
-    time: "05:00 pm",
-  },
-  {
-    id: 8,
-    time: "05:30 pm",
-  },
-  {
-    id: 9,
-    time: "06:00 pm",
-  },
-  {
-    id: 10,
-    time: "06:30 pm",
-  },
-  {
-    id: 11,
-    time: "07:00 pm",
-  },
-  {
-    id: 12,
-    time: "07:30 pm",
-  },
-  {
-    id: 13,
-    time: "08:00 pm",
-  },
-];
+interface AvailableSlots {
+  [key: string]: string[];
+}
+
 const Page = ({ params }: { params: Promise<{ id: string }> }) => {
-  // alternate way but this is asynchronous so only used in server components.
-  // const { id } = await params;
 
+  const [docSlots, setDocSlots] = useState<AllSlots[]>([]);
+  const [slotIndex, setSlotIndex] = useState<number>(0);
+  const [slotTime, setSlotTime] = useState<string | null>(null);
+  const [docInfo, setDocInfo] = useState<DoctorInfo | null | undefined>(null);
+  const [isBooking, setIsBooking] = useState<boolean>(false);
   const { id } = use(params);
-  const doctors = useContext(AppContext);
+  const user = useAuthContext();
+  const router = useRouter();
+  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"];
+  
+  const userId = user && user.user.id;
+  const userData = user && user.user;
+  const docId = Number(id);
+  
+  
+  const {doctors, getDoctorsData} = useAppContext();
+  const fetchDoctorsInfo = useCallback((docId: number) => {
+    const doctorInfo = doctors?.find((doc) => doc._id === docId);
+    setDocInfo(doctorInfo);
+  },[doctors]);
+  
+  // getting only available slots
+  const getAvailableSlots = useCallback(() => {
+    const today = new Date();
+    const allSlots: AllSlots[] = [];
+    
+    
+    for (let i = 0; i<7; i++) {
+      
+      const currentDate = new Date();
+      currentDate.setDate(today.getDate() + i);
+      
+      const dateKey = currentDate.toISOString().split("T")[0];
+      
+      // END TIME FOR EACH DAY
+      const endTime = new Date();
+      endTime.setDate(currentDate.getDate());
+      endTime.setHours(21, 0, 0, 0); //it's 9:00 pm
+      
+      // START TIME FOR EACH DAY
+      if (currentDate.getDate() === today.getDate()) {
+        currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10);
+        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
+      } else {
+        currentDate.setHours(10);
+        currentDate.setMinutes(0);
+      }
+      
+      
+      const timeSlots: TimeSlots[] = [];
+      while (currentDate < endTime) {
+        
+        const formatedTime = currentDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"});
+        
+        const day = currentDate.getDate()
+        const month = currentDate.getMonth() + 1
+        const year = currentDate.getFullYear();
+        
+        const slotDate = `${day}_${month}_${year}`;
+        
+        const slotsBooked = docInfo?.slots_booked as AvailableSlots | undefined;
+        const isSlotAvailable = !slotsBooked?.[slotDate]?.includes(formatedTime);
+        
+        // SHOWING ONLY AVAILABLE SLOTS
+        if(isSlotAvailable) {
+          timeSlots.push({
+            dateTime: new Date(currentDate),
+            time: formatedTime,
+          })
+        }
+  
+        currentDate.setMinutes(currentDate.getMinutes() + 30);
+      }
+      allSlots.push({ dateKey: dateKey ,slots: timeSlots});
+  
+    }
+    setDocSlots(allSlots);
+  },[docInfo?.slots_booked])
+
+  useEffect(() => {
+    if (doctors) {
+      fetchDoctorsInfo(docId);
+    }
+
+  },[doctors, docId, fetchDoctorsInfo]);
+
+useEffect(() => {
+  if (docInfo) {
+    getAvailableSlots();
+  }
+}, [docInfo, getAvailableSlots]);
+
+
+// booking of appointment
+const bookAppointment = async () => {
+  if (!user) {
+    toast.warning("Login to book appointment");
+    router.push("/login");
+  }
+
+  setIsBooking(false);
+
+  const date = docSlots[slotIndex].slots[0]?.dateTime;
+
+        const day = date?.getDate()
+        const month = date?.getMonth() + 1
+        const year = date?.getFullYear()
+
+        const slotDate = day + "_" + month + "_" + year
+
+  try {
+    const response = await fetch("/api/user/book-appointment", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+        docId,
+        slotDate,
+        slotTime,
+        userData
+      }),
+      headers: {
+        "Content-Type": "application/json",
+
+      }
+    })
+    const data = await response.json();
+    if (response.ok && data.success) {
+      toast.success(data.message);
+      // UPDATE THE DATA IN THE CONTEXT
+      getDoctorsData();
+      router.push(`/my-appointments`);
+
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    console.log("error occurred in booking appointment: "+ error);
+  } finally {
+    setIsBooking(false);
+  } 
+
+}
+
+
+
+  // PROVIDING FALLBACK UI
   if (!doctors) {
     return <DoctorWithIdSkelton />;
   }
 
   // filtering doctor with id.
-  const filteredArray: DoctorInfo[] = doctors.filter(
+  const filteredArray: DoctorInfo[] = doctors?.filter(
     (doctor) => doctor._id === Number(id)
   );
   const doctorWithId: DoctorInfo = filteredArray[0];
@@ -125,6 +189,8 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
 
   // Doctor Image url
   const url = doctorsImageUrl(doctorWithId.image);
+
+
 
   return (
     
@@ -193,14 +259,18 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
 
             {/* Dates */}
             <div className="flex flex-wrap justify-center gap-4 my-4">
-              {dates.map((date) => {
+              {docSlots.length && docSlots.map((date, itemIndex) => {
                 return (
                   <div
-                    key={date.id}
-                    className="border border-gray-500 rounded-full p-4 text-center w-20  "
+                    key={itemIndex}
+                    onClick={() => {
+                      setSlotIndex(itemIndex)
+                      setSlotTime("");
+                    }}
+                    className={`border border-gray-500 rounded-full p-4 text-center w-20 cursor-pointer ${itemIndex === slotIndex ? 'bg-blue-500 text-white' : 'border border-[#DDDDDD]'} ${date.slots[0] ? "visible" : "hidden"}`}
                   >
-                    <p>{date.day}</p>
-                    <p>{date.date}</p>
+                    <p>{date.slots && weekDays[date.slots[0]?.dateTime.getDay()]}</p>
+                    <p>{date.slots && date.slots[0]?.dateTime.getDate()}</p>
                   </div>
                 );
               })}
@@ -208,11 +278,12 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
 
             {/* Time Slots */}
             <div className="flex  flex-wrap justify-center gap-4 ">
-              {slots.map((slot) => {
+              {docSlots.length && docSlots[slotIndex].slots.map((slot, index) => {
                 return (
                   <div
-                    key={slot.id}
-                    className="border border-gray-400 rounded-full py-1 w-28 text-center text-gray-400 text-sm"
+                    key={index}
+                    className={`border border-gray-400 rounded-full py-1 w-28 text-center text-gray-400 text-sm cursor-pointer ${slot.time === slotTime ? 'bg-blue-500 text-white' : 'text-[#949494] border border-[#B4B4B4]'}`}
+                    onClick={() => setSlotTime(slot.time)}
                   >
                     {slot.time}
                   </div>
@@ -221,7 +292,11 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* Button */}
-            <button className="border rounded-full py-2 px-8 sm:w-96 w-72 my-4 bg-blue-500 text-white mx-auto">
+            <button 
+            disabled={isBooking}
+            className={`border rounded-full py-2 px-8 sm:w-96 w-72 my-4  mx-auto text-white ${isBooking ? 'bg-blue-100' : 'bg-blue-500'}`}
+            onClick={bookAppointment}
+            >
               Book Appointment
             </button>
           </div>

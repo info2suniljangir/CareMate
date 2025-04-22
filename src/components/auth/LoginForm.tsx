@@ -4,7 +4,6 @@ import Brand from "@/components/Brand";
 import { useActionState } from "react";
 import { authenticate, signInWithGoogle } from "@/library/action";
 import { useSearchParams } from "next/navigation";
-// import { signIn } from "../../../auth";
 
 const LoginForm: React.FC = () => {
   const searchParams = useSearchParams();
@@ -98,7 +97,7 @@ const LoginForm: React.FC = () => {
               <p className="text-sm font-light text-gray-500 ">
                 Don’t have an account yet?{" "}
                 <a
-                  href="#"
+                  href="/signup"
                   className="font-medium text-primary-600 hover:underline "
                 >
                   Sign up

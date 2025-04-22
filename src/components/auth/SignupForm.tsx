@@ -5,14 +5,6 @@ import { registerUser } from "@/library/action";
 import { useSearchParams } from "next/navigation";
 
 const SignupForm: React.FC = () => {
-  // useActionState()
-  // usage: using information returned by a form action
-  // special thing about useActionState is it's enable us to submit the form without event handlers.s`
-  // this is the common mistake.
-  // Note: the server action get one extra argument that is the state of the object
-  // and then the second argument is the formData object.
-  // always keep in the mind that the returned value of the server action must match
-  // with the state of the component.
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/my-appointments";
   const [errorMessage, formAction, isPending] = useActionState(
@@ -127,7 +119,7 @@ const SignupForm: React.FC = () => {
               <p className="text-sm font-light text-gray-500">
                 Already have an account?{" "}
                 <a
-                  href="#"
+                  href="/login"
                   className="font-medium text-primary-600 hover:underline"
                 >
                   Login here

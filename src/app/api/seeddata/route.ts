@@ -23,6 +23,7 @@ export async function GET() {
                 item.about,
                 item.fees,
                 item.address,
+                item.slots_booked
               ]
             );
           })
@@ -37,6 +38,3 @@ export async function GET() {
     }
 }
 
-// search localhost:3000/api/seeddata
-// this will seed the database.
-// {"message":"data seeded successfully"} this message will show on successfull seeding.

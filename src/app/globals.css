@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* css variables => values that could be defined at once and could be used throughtout the codebase.
-/* A value is stored in one place, then referenced in multiple other places */
-/* 1-Global Scope: defined inside the root element like bellow and could be used globally */
-/* 
-2-Local Scope: defined inside the specific selector like .class {--background: #ffffff;}
-/* Most of the cases these variables are used for colors  */
-
  :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,53 +10,24 @@
 }
 
 
-/*
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-/* css box shadow property
-box-shadow: horizontal vertical blur-rad spread-rad color inset;
-/* multiple box shadows comes one after one. */
-
-
-/* this is the best way to fix width of the page. */
 .wrapper {
   max-width: 1270px;
   margin: 0 auto;
-  /* Shorthand circle start from top */
-  /* the shorthand properties of the padding start from top then right then bottom then left */
   padding: 8px 15px;
 }
 
 
 .color-custom-red {
-  /* the css variable declared inside the selecter could be used using var function. */
-  /* the next place where this function is used in tailwind.config.ts */
   color: var(--custom-red)
 
 }
 
 .profile-dropdown-shadow {
-  /* Mine is better */
   box-shadow: 1px 1px 5px  rgb(242, 241, 241), -1px -1px 5px  rgb(242, 241, 241);
-  /* this darkshadow has more natural effect, and work with dark theme also */
-  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1), 0px 2px 5px rgba(0, 0, 0, 0.05); */
 }
 
 
-
-/* Stack overflow solution */
-/* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

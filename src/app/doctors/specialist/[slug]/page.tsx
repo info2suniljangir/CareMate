@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useContext, useState } from "react";
+import React, { use, useState } from "react";
 // import style from "./Doctors.module.css"
 // accessing doctors data from context
 import { specialityData } from "@/assets/assets";
@@ -8,7 +8,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AppContext } from "@/context/AppContext";
+import { useAppContext } from "@/hooks/useAuthContext";
 
 // ${style.addtransition}
 
@@ -18,7 +18,7 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   const [chooseSpeciality, setChooseSpeciality] = useState<string>(decodedSlug);
   const [search, setSearch] = useState<string>("");
   const router = useRouter();
-  const doctors = useContext(AppContext);
+  const {doctors} = useAppContext();
 
   //   setting the state inside rendering will make infinite loop.
 

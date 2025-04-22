@@ -1,11 +1,7 @@
 import Image from "next/image";
 import React from "react";
-// import { assets } from "@/assets/assets";
 import { aboutImageUrl } from "@/library/imageurl";
 
-//  If you have a layout.tsx, Next.js will wrap the Page component inside it automatically.
-// Maintain consistency
-// Next.js conventions.
 const Page: React.FC = () => {
 
   return (
@@ -45,34 +41,12 @@ const Page: React.FC = () => {
 
         {/* right container */}
         <div className="shadow-lg rounded-md">
-          {/*1. Next.js <Image> component does not automatically stretch to fill its container. 
-            If the image is smaller than the container, it leaves blank space to the right. 
-            2. Image must be always inside the container to controll the rendered size of the image.
-            */}
-            
-          {/* <Image
-            src={assets.aboutImage2}
-            alt="aboutImage"
-            width={500}
-            height={200}
-            // fill
-            className="w-[600px] md:w-[500px] rounded-t"
-          /> */}
-
-          {/* this is the best way to use image. */}
           <div className="relative w-full h-[300px]">
             <Image
               src={aboutImageUrl}
               alt="aboutImage"
-            //   either fill or hight and width property given
               fill
-            //   three things comes with fill
-            // 1, set position relative to the parent container,
-            // 2, Image container must be responsive
-            // 3, object fit cover or contain must be supplied in to the style
               className="object-cover rounded-t"
-            //   1. contain: image will be squezed or stressed to fit the container to preserve aspect ratio.
-            // 2. Image will be squezed or stressed to fit the container and cropped to preserve aspect ratio.
               priority
             />
           </div>

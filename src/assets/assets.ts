@@ -8,21 +8,6 @@ import {
   faHeadSideCough,
   faHandDots,
 } from "@fortawesome/free-solid-svg-icons";
-// import doc1 from "./images/doc1.png";
-// import doc2 from "./images/doc2.png";
-// import doc3 from "./images/doc3.png";
-// import doc4 from "./images/doc4.png";
-// import doc5 from "./images/doc5.png";
-// import doc6 from "./images/doc6.png";
-// import doc7 from "./images/doc7.png";
-// import doc8 from "./images/doc8.png";
-// import doc9 from "./images/doc9.png";
-// import doc10 from "./images/doc10.png";
-// import doc11 from "./images/doc11.png";
-// import doc12 from "./images/doc12.png";
-// import doc13 from "./images/doc13.png";
-// import doc14 from "./images/doc14.png";
-// import doc15 from "./images/doc15.png";
 import aboutImage from "./images/about_image.png";
 import contactImage from "./images/contact2.jpg";
 import aboutImage2 from "./images/about_image2.jpg";
@@ -32,25 +17,6 @@ import {
   ImageAssetsTypes,
 } from "@/types/types";
 
-
-// Image files are direct read from the image folder in seedimage route.
-// export const seedImages = [
-//   doc1,
-//   doc2,
-//   doc3,
-//   doc4,
-//   doc5,
-//   doc6,
-//   doc7,
-//   doc8,
-//   doc9,
-//   doc10,
-//   doc11,
-//   doc12,
-//   doc13,
-//   doc14,
-//   doc15,
-// ];
 
 export const assets: ImageAssetsTypes = {
   logo: logo,
@@ -102,6 +68,7 @@ export const doctors: DoctorInfo[] = [
         line1: "17th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {}
     },
     {
       _id: 2,
@@ -117,6 +84,7 @@ export const doctors: DoctorInfo[] = [
         line1: "27th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 3,
@@ -132,6 +100,8 @@ export const doctors: DoctorInfo[] = [
         line1: "37th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
+
     },
     {
       _id: 4,
@@ -147,6 +117,7 @@ export const doctors: DoctorInfo[] = [
         line1: "47th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 5,
@@ -162,6 +133,7 @@ export const doctors: DoctorInfo[] = [
         line1: "57th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 6,
@@ -177,6 +149,7 @@ export const doctors: DoctorInfo[] = [
         line1: "57th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 7,
@@ -192,6 +165,7 @@ export const doctors: DoctorInfo[] = [
         line1: "17th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 8,
@@ -207,6 +181,7 @@ export const doctors: DoctorInfo[] = [
         line1: "27th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 9,
@@ -222,6 +197,7 @@ export const doctors: DoctorInfo[] = [
         line1: "37th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 10,
@@ -237,6 +213,7 @@ export const doctors: DoctorInfo[] = [
         line1: "47th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 11,
@@ -252,6 +229,7 @@ export const doctors: DoctorInfo[] = [
         line1: "57th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 12,
@@ -267,6 +245,7 @@ export const doctors: DoctorInfo[] = [
         line1: "57th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 13,
@@ -282,6 +261,7 @@ export const doctors: DoctorInfo[] = [
         line1: "17th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 14,
@@ -297,6 +277,7 @@ export const doctors: DoctorInfo[] = [
         line1: "27th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
     {
       _id: 15,
@@ -312,5 +293,6 @@ export const doctors: DoctorInfo[] = [
         line1: "37th Cross, Richmond",
         line2: "Circle, Ring Road, London",
       }),
+      slots_booked: {},
     },
   ];

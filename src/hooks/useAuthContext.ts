@@ -1,3 +1,4 @@
+import { AppContext } from '@/context/AppContext';
 
 
 import { useContext } from "react";
@@ -13,4 +14,14 @@ export const useAuthContext = () => {
 
 
     return authContext;
+}
+
+export const useAppContext = () => {
+    const appContext = useContext(AppContext)
+
+    if (!appContext) {
+        throw new Error ("Auth context must be used within auth context provider")
+    }
+
+    return appContext;
 }

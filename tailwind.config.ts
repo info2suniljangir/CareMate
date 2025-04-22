@@ -11,7 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        // this is the way of defining colors in tailwindcss
+        // DEFINING CUSTOM COLOR IN CSS
         'custom-red': 'var(--custom-red)',
         'custom-pink': 'var(--custom-pink)',
       },
