@@ -31,8 +31,8 @@ const navLinks: NavLink[] = [
   { id: 2, title: "All Doctors", href: "/doctors" },
   { id: 3, title: "About", href: "/about" },
   { id: 4, title: "Contact", href: "/contact" },
-  // { id: 5, title: "Admin", href: "/admin" },
 ];
+// { id: 5, title: "Admin", href: "/admin" },
 
 const Navbar: React.FC = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
