@@ -1,19 +1,18 @@
-## Vercel Link
+## 🔗 Vercel Link
 [https://care-mate.vercel.app/](https://care-mate.vercel.app/)  
 
 
-## Author
-Sunil Kumar Jangir  
-Frontend developer in progress | Passionate about building useful application.  
-Sikar, Rajasthan, India  
-Github [https://github.com/info2suniljangir](https://github.com/info2suniljangir)  
-Linkedin [https://www.linkedin.com/in/info2suniljangir]  
-Email: info2suniljangir@gmail.com  
-
-
-## CareMate
+## 🩺 CareMate
 
 This is an appointment booking application where users can securely login and book and cancel appointments with their required speciality doctors.
+
+## ✨ Features
+
+- 🔐 Secure Google login & signup
+- 📅 Book and cancel appointments
+- 🧑‍⚕️ Filter doctors by speciality
+- 📂 View your appointment history
+- 🌐 Fully responsive UI
 
 
 ## Getting started to run local dev server 
@@ -21,7 +20,7 @@ This is an appointment booking application where users can securely login and bo
 Clone the project
 
 ```bash
-https://github.com/info2suniljangir/CareMate.git
+git clone https://github.com/info2suniljangir/CareMate.git
 
 ```
 
@@ -47,11 +46,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 
-## Tech stack
-Frontend: Next.js, React.js, Tailwindcss.  
-Backend: Next.js api routes and server actions.  
-Database: Neon PostgreSQL, Cloudinary for storing images.  
-Deployment: Vercel  
+## 🧰 Tech Stack
+
+**Frontend:** Next.js, React.js, TailwindCSS  
+**Backend:** Next.js API Routes, Server Actions  
+**Database:** Neon PostgreSQL  
+**Image Hosting:** Cloudinary  
+**Deployment:** Vercel 
 
 ## Short guideline for using application
 
@@ -79,5 +80,18 @@ Step5: to see all appointment open dropdown menu and then hit my appointment opt
 ![my-appointments](public/myappointmentpage.png)
 
 
+## Author
+Sunil Kumar Jangir  
+Frontend developer in progress | Passionate about building useful application.  
+Sikar, Rajasthan, India  
+Github [https://github.com/info2suniljangir](https://github.com/info2suniljangir)  
+Linkedin [https://www.linkedin.com/in/info2suniljangir]  
+Email: info2suniljangir@gmail.com  
+
 Developed and maintained by Sunil Kumar Jangir, a self-driven developer passionate about creating meaningful web applications.
+
+
+## Thank you
+
+Thanks for visiting and checking out CareMate!
 
