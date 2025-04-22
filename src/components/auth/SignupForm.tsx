@@ -1,5 +1,5 @@
 "use client";
-import React, { useActionState } from "react";
+import React, { useActionState, useState } from "react";
 // import Brand from "../Brand";
 import { registerUser } from "@/library/action";
 import { useSearchParams } from "next/navigation";
@@ -11,6 +11,19 @@ const SignupForm: React.FC = () => {
     registerUser,
     undefined
   );
+  const [formValues, setFormValues] = useState<{name: string, email: string, password: string, confirmPassword:string}>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormValues(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
   return (
     <section className="mt-16 sm:mt-20 md:mt-4 pt-8">
@@ -36,6 +49,8 @@ const SignupForm: React.FC = () => {
                   placeholder="Full name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   required
+                  value={formValues.name}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -52,6 +67,8 @@ const SignupForm: React.FC = () => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   placeholder="name@company.com"
                   required
+                  value={formValues.email}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -68,22 +85,26 @@ const SignupForm: React.FC = () => {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   required
+                  value={formValues.password}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label
-                  htmlFor="confirm-password"
+                  htmlFor="confirmPassword"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Confirm password
                 </label>
                 <input
                   type="password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   required
+                  value={formValues.confirmPassword}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex items-start">

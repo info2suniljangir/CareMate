@@ -1,13 +1,34 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useActionState, useState } from "react";
 import { contactImageUrl } from "@/library/imageurl";
+import { submitContactForm } from "@/library/action";
 
 
 
 const ContactUs:React.FC = () => {
 
+  const [message, formAction, isPending] = useActionState(submitContactForm, undefined);
+
+  const [formValues, setFormValues] = useState<{fName: string, lName: string, email: string, mobileNumber: string, message: string}>({
+    fName: "",
+    lName: "",
+    email: "",
+    mobileNumber: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormValues(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+
+
   return (
-    <form >
+    <form action={formAction} >
       <div className="wrapper " id="contactUs">
         <div className="flex sm:p-6 ">
           {/* Contact form */}
@@ -16,8 +37,6 @@ const ContactUs:React.FC = () => {
           <div className="font-medium text-2xl">Get in touch</div>
           <div className="text-gray-600">Lets chat about how over expert team can help</div>
           </div>
-            {/* this is the absolutely right way to put this lable and input in to a single div */}
-
             <div className="flex flex-col sm:flex-row justify-between gap-4">
               <div className="inline-block sm:w-1/2 w-full">
                 <label htmlFor="fName" className="block">
@@ -29,6 +48,9 @@ const ContactUs:React.FC = () => {
                   name="fName"
                   placeholder="First name"
                   className="outline-none border  border-gray-300 rounded px-2 py-1 w-full"
+                  required
+                  onChange={handleChange}
+                  value={formValues.fName}
                 />
               </div>
 
@@ -42,6 +64,9 @@ const ContactUs:React.FC = () => {
                   name="lName"
                   placeholder="Last name"
                   className="outline-none border  border-gray-300 rounded px-2 py-1 w-full"
+                  required
+                  onChange={handleChange}
+                  value={formValues.lName}
                 />
               </div>
             </div>
@@ -57,6 +82,9 @@ const ContactUs:React.FC = () => {
                 name="email"
                 placeholder="Email"
                 className="w-full outline-none border  border-gray-300 rounded px-2 py-1"
+                required
+                onChange={handleChange}
+                value={formValues.email}
               />
             </div>
 
@@ -70,6 +98,9 @@ const ContactUs:React.FC = () => {
                 name="mobileNumber"
                 placeholder="Mobile number"
                 className="w-full outline-none border  border-gray-300 rounded px-2 py-1"
+                required
+                onChange={handleChange}
+                value={formValues.mobileNumber}
               />
             </div>
 
@@ -82,10 +113,15 @@ const ContactUs:React.FC = () => {
                 id="message"
                 placeholder="Type your message Here"
                 className="w-full outline-none border  border-gray-300 rounded px-2 py-1"
+                required
+                onChange={handleChange}
+                value={formValues.message}
               />
             </div>
-
-            <button type="submit" className="p-2 rounded bg-blue-500 text-white">Submit</button>
+            {message && <p className="text-red-700">{message}</p>}
+            <button
+            disabled={isPending}
+            type="submit" className={`p-2 rounded ${isPending ? "bg-blue-200" : "bg-blue-500"} text-white`}>Submit</button>
           </div>
           {/* Image */}
           <div className="md:w-1/2  hidden md:block relative">
