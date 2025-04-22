@@ -15,8 +15,8 @@ config.autoAddCss = false;
 
 
 export const metadata: Metadata = {
-  title: "Make your appointment to your dotor",
-  description: "A healthcare management system",
+  title: "CareMate",
+  description: "Book your appointment with a specialist doctor",
 };
 
 export default async function RootLayout({
