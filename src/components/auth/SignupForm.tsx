@@ -33,7 +33,7 @@ const SignupForm: React.FC = () => {
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="Sunil Jangir"
+                  placeholder="Full name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none block w-full p-2.5"
                   required
                 />

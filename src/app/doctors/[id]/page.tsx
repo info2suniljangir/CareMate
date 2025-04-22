@@ -122,12 +122,12 @@ useEffect(() => {
 
 // booking of appointment
 const bookAppointment = async () => {
+  setIsBooking(true);
   if (!user) {
     toast.warning("Login to book appointment");
     router.push("/login");
   }
 
-  setIsBooking(false);
 
   const date = docSlots[slotIndex].slots[0]?.dateTime;
 

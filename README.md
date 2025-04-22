@@ -68,13 +68,13 @@ Step5: to see all appointment open dropdown menu and then hit my appointment opt
 ![TopDoctors](public/ourtopdoctors.png)
 
 ## All Doctors Page
-![AllDoctors](public/alldoctorspage.png);
+![AllDoctors](public/alldoctorspage.png)
 
 ## Book Appointment Page
-![DoctorProfile](public/alldoctorspage.png);
+![DoctorProfile](public/alldoctorspage.png)
 
 ## My appointment page
-![my-appointments](public/myappointmentpage.png);
+![my-appointments](public/myappointmentpage.png)
 
 
 Developed and maintained by Sunil Kumar Jangir, a self-driven developer passionate about creating meaningful web applications.
