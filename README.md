@@ -1,3 +1,7 @@
+## Vercel Link
+[https://care-mate.vercel.app/](https://care-mate.vercel.app/)  
+
+
 ## Author
 Sunil Kumar Jangir  
 Frontend developer in progress | Passionate about building useful application.  
@@ -42,8 +46,6 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-## Vercel Link
-[https://care-mate.vercel.app/](https://care-mate.vercel.app/)  
 
 ## Tech stack
 Frontend: Next.js, React.js, Tailwindcss.  
