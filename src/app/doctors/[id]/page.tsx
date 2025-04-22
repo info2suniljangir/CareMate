@@ -158,17 +158,14 @@ const bookAppointment = async () => {
       // UPDATE THE DATA IN THE CONTEXT
       getDoctorsData();
       router.push(`/my-appointments`);
-
+      setIsBooking(false);
     } else {
       toast.error(data.message);
     }
 
   } catch (error) {
     console.log("error occurred in booking appointment: "+ error);
-  } finally {
-    setIsBooking(false);
   } 
-
 }
 
 
